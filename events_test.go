@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/PagerDuty/godspeed"
+	"github.com/theckman/godspeed"
 	// this is where *C comes from
 	. "gopkg.in/check.v1"
 )
