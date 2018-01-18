@@ -21,36 +21,38 @@ func removePipes(s string) string {
 
 // function to make sure tags are unique
 func uniqueTags(gt, t []string) []string {
-	allTags := make([]string, 0, len(gt)+len(t))
-	allTags = append(allTags, gt...)
-	allTags = append(allTags, t...)
-	t = allTags
+	tags := make([]string, len(gt)+len(t))
+
+	copy(tags, gt)
+	copy(tags[len(gt):], t)
 
 	// if the tag slice is empty avoid allocation
-	if len(t) < 1 {
+	if len(tags) == 0 {
 		return nil
 	}
 
 	// build a map to track which values we've seen
-	s := make(map[string]bool)
+	// make sure the map is big enough to store all tags
+	// to avoid further allocations as we add more items
+	s := make(map[string]struct{}, len(tags))
 
 	// loop over each string provided
 	// if the value is not in the map then replace
 	// the value at t[len(s)] so that we always have
 	// only unique tags at the beginning of the slice
-	for i, v := range t {
+	for i, v := range tags {
 		if _, x := s[v]; !x {
 			// only change the value if needed
-			if i != len(s) {
-				t[len(s)] = v
+			if sz := len(s); sz != i {
+				tags[sz] = v
 			}
 
-			s[v] = true
+			s[v] = struct{}{}
 		}
 	}
 
 	// based on the size of the map we know
 	// how many unique tags there were
 	// so return that slice
-	return []string(t[:len(s)])
+	return tags[:len(s)]
 }
