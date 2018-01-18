@@ -53,7 +53,7 @@ func (g *Godspeed) Event(title, text string, fields map[string]string, tags []st
 		for i, v := range eventKeys {
 			if mv, ok := fields[v]; ok {
 				buf.WriteString("|")
-				buf.WriteString(string(eventMarkers[i]))
+				buf.WriteRune(eventMarkers[i])
 				buf.WriteString(":")
 				pipesReplacer.WriteString(&buf, mv)
 			}
