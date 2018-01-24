@@ -18,8 +18,6 @@ import (
 	. "gopkg.in/check.v1"
 )
 
-const closedChan = "return channel (out) closed prematurely"
-
 func Test(t *testing.T) { TestingT(t) }
 
 type TestSuite struct {
@@ -111,7 +109,6 @@ func (t *TestSuite) TestAddTags(c *C) {
 	}
 
 	tags2 := []string{"test3", "test4", "test5", "test4"}
-	tags = append(tags, tags2...)
 
 	t.g.AddTags(tags2)
 	c.Assert(len(t.g.Tags), Equals, 5)
